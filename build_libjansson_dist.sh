@@ -11,10 +11,12 @@ function build_for_arch() {
   PREFIX=$4
   IPHONEOS_DEPLOYMENT_TARGET="9.0"
   export PATH="${DEVROOT}/usr/bin/:${PATH}"
-  export CFLAGS="-DCURL_BUILD_IOS -arch ${ARCH} -pipe -Os -gdwarf-2 -isysroot ${SYSROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -fembed-bitcode"
+  #export CFLAGS="-arch ${ARCH} -pipe -Os -gdwarf-2 -isysroot ${SYSROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -fembed-bitcode"
+  export CFLAGS="-arch ${ARCH} -Os -isysroot ${SYSROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
   export LDFLAGS="-arch ${ARCH} -isysroot ${SYSROOT}"
   #./configure --disable-shared --host="${HOST}" --prefix=${PREFIX} && make -j8 && make install
-  ./configure --disable-shared --host="${HOST}" --prefix=${PREFIX} && make -j8
+  #./configure --disable-shared --host="${HOST}" --prefix=${PREFIX} && make -j8
+  ./configure --host="${HOST}" --prefix=${PREFIX} && make
 }
 
 TMP_DIR=/tmp/build_libjansson_$$
