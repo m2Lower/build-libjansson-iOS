@@ -19,7 +19,9 @@ function build_for_arch() {
   #./configure --disable-shared --host="${HOST}" --prefix=${PREFIX} && make -j8 && make install
   #./configure --disable-shared --host="${HOST}" --prefix=${PREFIX} && make -j8
   make clean
-  ./configure --disable-shared --host="${HOST}" --prefix=${PREFIX} && make
+  ./configure --host="${HOST}" && make
+  mkdir -p ${PREFIX}/lib/
+  cp -p src/.libs/libjansson.a ${PREFIX}/lib/libjansson.a
 }
 
 TMP_DIR=/tmp/build_libjansson_$$
@@ -31,13 +33,14 @@ build_for_arch armv7s armv7s-apple-darwin /Applications/Xcode.app/Contents/Devel
 #build_for_arch armv7 armv7-apple-darwin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk ${TMP_DIR}/armv7 || exit 5
 
 mkdir -p ${TMP_DIR}/lib/
-${DEVROOT}/usr/bin/lipo \
-	-arch x86_64 ${TMP_DIR}/x86_64/lib/libcurl.a \
-	-arch armv7s ${TMP_DIR}/armv7s/lib/libcurl.a \
-	-arch arm64 ${TMP_DIR}/arm64/lib/libcurl.a \
-	-output ${TMP_DIR}/lib/libcurl.a -create
 
-cp -r ${TMP_DIR}/arm64/include ${TMP_DIR}/
+${DEVROOT}/usr/bin/lipo \
+	-arch x86_64 ${TMP_DIR}/x86_64/lib/libjansson.a \
+	-arch armv7s ${TMP_DIR}/armv7s/lib/libjansson.a \
+	-arch arm64 ${TMP_DIR}/arm64/lib/libjansson.a \
+	-output ${TMP_DIR}/lib/libjansson.a -create
+
+cp -p src/*.h ${DIST_DIR}/include
 
 mkdir -p ${DIST_DIR}
-cp -r ${TMP_DIR}/include ${TMP_DIR}/lib ${DIST_DIR}
+cp -r ${TMP_DIR}/lib ${DIST_DIR}
