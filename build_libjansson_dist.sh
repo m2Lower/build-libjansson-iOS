@@ -11,13 +11,8 @@ function build_for_arch() {
   PREFIX=$4
   IPHONEOS_DEPLOYMENT_TARGET="9.0"
   export PATH="${DEVROOT}/usr/bin/:${PATH}"
-  #export CC="/usr/bin/clang"
-  #export CPP="clang -E"
   export CFLAGS="-arch ${ARCH} -pipe -Os -gdwarf-2 -isysroot ${SYSROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -fembed-bitcode"
-  #export CFLAGS="-arch ${ARCH} -isysroot ${SYSROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
   export LDFLAGS="-arch ${ARCH} -isysroot ${SYSROOT}"
-  #./configure --disable-shared --host="${HOST}" --prefix=${PREFIX} && make -j8 && make install
-  #./configure --disable-shared --host="${HOST}" --prefix=${PREFIX} && make -j8
   make clean
   ./configure --host="${HOST}" && make
   mkdir -p ${PREFIX}/lib/
@@ -40,7 +35,7 @@ ${DEVROOT}/usr/bin/lipo \
 	-arch arm64 ${TMP_DIR}/arm64/lib/libjansson.a \
 	-output ${TMP_DIR}/lib/libjansson.a -create
 
-cp -p src/*.h ${DIST_DIR}/include
 
-mkdir -p ${DIST_DIR}
+mkdir -p ${DIST_DIR}/include
+cp -p src/*.h ${DIST_DIR}/include
 cp -r ${TMP_DIR}/lib ${DIST_DIR}
