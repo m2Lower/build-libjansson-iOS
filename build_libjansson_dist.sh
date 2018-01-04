@@ -11,8 +11,10 @@ function build_for_arch() {
   PREFIX=$4
   IPHONEOS_DEPLOYMENT_TARGET="9.0"
   export PATH="${DEVROOT}/usr/bin/:${PATH}"
+  export CC="/usr/bin/clang"
+  export CPP="clang -E"
   #export CFLAGS="-arch ${ARCH} -pipe -Os -gdwarf-2 -isysroot ${SYSROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET} -fembed-bitcode"
-  export CFLAGS="-arch ${ARCH} -Os -isysroot ${SYSROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
+  export CFLAGS="-arch ${ARCH} -isysroot ${SYSROOT} -miphoneos-version-min=${IPHONEOS_DEPLOYMENT_TARGET}"
   export LDFLAGS="-arch ${ARCH} -isysroot ${SYSROOT}"
   #./configure --disable-shared --host="${HOST}" --prefix=${PREFIX} && make -j8 && make install
   #./configure --disable-shared --host="${HOST}" --prefix=${PREFIX} && make -j8
